@@ -1,0 +1,50 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  color: white;
+  background: black;
+  margin: 0;
+  overflow: hidden;
+  height: 64rem;
+  min-width: 1152px;
+}
+
+.main-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-auto-flow: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-header {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.screen {
+  position: relative;
+  width: 1152px;
+  height: 624px;
+}
+
+.sprite {
+  width: 48px;
+  height: 96px;
+  top: 48px;
+  left: 96px;
+  position: absolute;
+}
+
