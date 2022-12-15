@@ -46,5 +46,6 @@ body {
   top: 48px;
   left: 96px;
   position: absolute;
+  transition: .2s;
 }
 
