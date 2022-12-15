@@ -35,9 +35,20 @@ body {
 }
 
 .screen {
-  position: relative;
+  background: url("../assets/map.png");  position: relative;
   width: 1152px;
   height: 624px;
+  z-index: -2;
+}
+
+.desk-one {
+background: url("../assets/desk.png");
+width: 480px;
+height: 192px;
+position: absolute;
+left: 96px;
+top: 144px;
+z-index: 0;
 }
 
 .sprite {
@@ -47,5 +58,6 @@ body {
   left: 96px;
   position: absolute;
   transition: .2s;
+  z-index: -1;
 }
 
