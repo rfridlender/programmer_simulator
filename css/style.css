@@ -15,8 +15,7 @@ body {
   min-width: 1152px;
 }
 
-.main-container {
-  width: 100%;
+.main-container {  width: 100%;
   height: 100%;
   display: grid;
   grid-auto-flow: row;
@@ -41,14 +40,32 @@ body {
   z-index: -2;
 }
 
+.desk {
+  background: url("../assets/desk.png");
+  width: 480px;
+  height: 192px;
+  position: absolute;
+  z-index: 0;
+}
+
 .desk-one {
-background: url("../assets/desk.png");
-width: 480px;
-height: 192px;
-position: absolute;
-left: 96px;
-top: 144px;
-z-index: 0;
+  left: 96px;
+  top: 144px;
+}
+
+.desk-two {
+  left: 576px;
+  top: 144px;
+}
+
+.desk-three {
+  left: 96px;
+  top: 336px;
+}
+
+.desk-four {
+  left: 576px;
+  top: 336px;
 }
 
 .sprite {
@@ -60,4 +77,6 @@ z-index: 0;
   transition: .2s;
   z-index: -1;
 }
+
+
 
