@@ -1,18 +1,5 @@
-// Things to do/not forget:
-
-// Computer bug screen can be red half transparent radial gradient flashing
-
-// Fix sprite speed functionality, gonna have to make sure that everything is ratio'd to the speed, otherwise, if speed is half as small, the map will also be half as small if not adjusted to it
-
-// Create dynamic desk placement set up, make sure to get rid of all the hard code related stuff for testing initial functionality. All of the work should be within js, choosing a random location, making the desks range and tiles it occupies, and then sending it to the DOM
-
-
-
-
-// look up table where key is the cood and bondry is the value 
-
-// /`2-2`: {right: flase}
 /*------------------------ Cached Element References ------------------------*/
+// /`2-2`: {right: flase}
 
 const programmerAura = document.querySelector(`.sprite`);
 const programmer = document.querySelector(`.sprite-image`);
@@ -43,9 +30,8 @@ console.log(mapSize);
 console.log(tileSize);
 /*---------------------------- Variables (state) ----------------------------*/  
 
-let step = 1;
 
-/*---------------------------- Classses / Object -------------------------------------*/
+/*---------------------------- Classses / Object ----------------------------*/
 
 class Tile {
   constructor(x, y, right, left, bottom, top) {
@@ -101,6 +87,7 @@ const sprite = {
   currentTile: {pos: {x: 2, y: 2}, boundary: {right: false, left: false, bottom: false, top: true}, terminal: false},
   speedTilesPerPress: 1,
   runAnimationDuration: +getComputedStyle(programmerAura).transitionDuration.replace(`s`, ``) * 1000,
+  step: 1;
   spriteLayer: -1,
   updateTile() {
     console.log(`new pos of sprite`, this.currentTile);
@@ -125,42 +112,42 @@ const sprite = {
   },
   moveRight() {
     programmerAura.style.left = `${pixelTranslator(this.currentTile.pos.x) + (this.spriteDim.x * this.speedTilesPerPress)}px`;
-    programmer.src = `./assets/sprite_run_right_${step}.gif`
+    programmer.src = `./assets/sprite_run_right_${this.step}.gif`
     setTimeout(() => {
       programmer.src = `./assets/sprite_idle_right.gif`;
     }, this.runAnimationDuration);
-    step *= -1;
+    this.step *= -1;
     console.log(`working`);
     this.currentTile.pos.x += this.speedTilesPerPress;
     this.updateTile();
   },
   moveLeft() {
     programmerAura.style.left = `${pixelTranslator(this.currentTile.pos.x) - (this.spriteDim.x * this.speedTilesPerPress)}px`;
-    programmer.src = `./assets/sprite_run_left_${step}.gif`
+    programmer.src = `./assets/sprite_run_left_${this.step}.gif`
     setTimeout(() => {
       programmer.src = `./assets/sprite_idle_left.gif`;
     }, this.runAnimationDuration);
-    step *= -1;
+    this.step *= -1;
     this.currentTile.pos.x -= this.speedTilesPerPress;
     this.updateTile();
   },
   moveDown() {
     programmerAura.style.top = `${(pixelTranslator(this.currentTile.pos.y)) * this.speedTilesPerPress}px`;
-    programmer.src = `./assets/sprite_run_down_${step}.gif`
+    programmer.src = `./assets/sprite_run_down_${this.step}.gif`
     setTimeout(() => {
       programmer.src = `./assets/sprite_idle_down.gif`;
     }, this.runAnimationDuration);
-    step *= -1;
+    this.step *= -1;
     this.currentTile.pos.y += this.speedTilesPerPress;
     // this.updateTile();
   },
   moveUp() {
     programmerAura.style.top = `${pixelTranslator(this.currentTile.pos.y) - (this.spriteDim.y  * this.speedTilesPerPress)}px`;
-    programmer.src = `./assets/sprite_run_up_${step}.gif`
+    programmer.src = `./assets/sprite_run_up_${this.step}.gif`
     setTimeout(() => {
       programmer.src = `./assets/sprite_idle_up.gif`;
     }, this.runAnimationDuration);
-    step *= -1;
+    this.step *= -1;
     this.currentTile.pos.y -= this.speedTilesPerPress;
     // this.updateTile();
   },

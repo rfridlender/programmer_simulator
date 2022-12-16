@@ -1,0 +1,171 @@
+/*============================ Planning Materials ===========================*/
+
+._______________________________________________________________________________.
+|                                                                               |
+|                             programmer_simulator                              |
+|         .______________________________________________________.              |
+|     Dec | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | Deadline     |
+|         *------------------------------------------------------*              |
+|   ._______________________________________________________________________.   |
+|   |                                                                       |   |
+|   |                                                                       |   |
+|   |                                                                       |   |
+|   |                                                                       |   |
+|   |                                                                       |   |
+|   |                             game container                            |   |
+|   |                                                                       |   |
+|   |                                                                       |   |
+|   |                                                                       |   |
+|   |                                                                       |   |
+|   |                                                                       |   |
+|   |                                                                       |   |
+|   *-----------------------------------------------------------------------*   |
+|                                                                               |
+*-------------------------------------------------------------------------------*
+
+/*------------------------------ Choice of Game -----------------------------*/
+
+Countdown Game, styled as a 2D RPG
+
+.     The game is intended to emulate (option 1:) the history of finding
+the first bug within the Harvard Supercomputers in the 1940s 
+(or option 2:) a month in the life of a programmer, facing strict deadlines. 
+The programmer (sprite) must fix (interact with) all of the bugs (computers)
+before a deadline (ascending timer repesenting dates) is met. If the programmer 
+cannot fix all of the bugs within the deadline, the programmer loses. 
+If the programmer can fix all the bugs within the deadline,
+the programmer will move onto another project (level/scenario) 
+and repeat the process.
+
+/*-------------------------------- Pseudocode -------------------------------*/
+
+/*------------------------ Cached Element References ------------------------*/
+
+sprite = the node of the sprite image
+.    * access to manipulate image through the DOM
+screen = the node of the game container
+.    * access to add animtions/effects to the screen as a whole
+.    * access to derive mapsize using clientWidth (x) and clientHeight (y)
+timer = the node list of all the calandar dates
+.    * access each node to change the date highlighted as each second passes
+desks = the node list of all the obstacles/terrain
+.    * (later feature) access individually to dynamically place the terrain
+terminals = the node list of all the terminals
+.    * access individually to run animations, 
+.    showing the computer contains a bug
+
+/*-------------------------------- Constants --------------------------------*/
+
+keys = an array of objects representing each arrow key used to simplify
+.    interaction with arrow keys
+
+tileSize = a number derived from the sprite image's width; used as
+.    a standard reference to move the character 1 tileSize worth per arrow key
+outerWallThickness = an object of directional keys representing the thickness 
+.    in tileSize of each direction of the outer boundaries of the map
+mapSize = an object of xy coodinates representing the width and height
+.   of the map in amount of tileSize
+tiles = an object (lookup table) of keys of all combinations of "x-y",
+.   showing the occupancy status of boundaries and terminals at each tile
+
+date = record of today's date used to accrument to the deadline's date
+deadline = record of a degsignated date of a deadline
+
+/*---------------------------- Variables (state) ----------------------------*/  
+
+let timer = value accrumenting from today's date to deadline;
+let terminalsRemaining = value of terminals that have not been interacted with
+(contained within objects);
+let winner = false;
+
+(objects store states related to respective objects)
+
+/*---------------------------- Classses / Object ----------------------------*/
+
+class Tile = constructor used for creating tiles
+.   * creates key of a unique xy coodinate "x-y" and that tile's corresponding
+.     boundary and terminal status
+class Desks = constructor used for updating boundary
+.     of tiles which it occupies on intilization of the level
+.   * contains range of xMin-xMax-yMin-yMax coodinates of the tiles it occupies
+.   * contains method of using range of coodinates to update boundaries of tiles
+class Terminals = constructor used for updating terminal status of tiles
+.     which it occupies on intilization of the level
+.   * contains range of xMin-xMax-yMin-yMax coodinates of the tiles it occupies
+.   * contains method of using range of coodinates
+.     to update terminal status of tiles
+.   * contains sprite interaction method which decrements the terminals remaining
+.     variable
+.   * when status of terminal remains false, runs flashing animation
+
+obj sprite = stores game state (sprite postition) and methods
+.     related to sprite
+.   * const sprite = {
+.       posX: x coodinate of current position (tile),
+.       posY: y coodinate of current position (tile),
+.       spriteDim: {x: width of sprite in px, y: height of sprite in px},
+.       speedTilesPerPress: ratio used to increase or descrease the pixels
+.         the sprite moves per key press,
+.       step: used as a integer toggle (1, -1) to alternate the image
+.         used in the walk animation
+.       spriteLayer: z-index of the sprite; used to ensure sprite is
+.         behind terrain or in front of terrain visually when appropriate
+.       turn(key) { method used to change the sprite image
+.         based on which direction the sprite is turned },
+.       move() { used to run animations when sprite moves, change
+.         sprite's postiion in the DOM, and update game state
+.         (this.posX, this.posY) },
+.       interact() { runs when sprite interacts with terminal, changing
+.         terminalsRemaining state, and corresponding terminals value on tile },
+.     }
+
+/*----------------------------- Event Listeners -----------------------------*/
+
+document.addEventListener(`keydown`, handleKey) = listens for any key press
+.     and runs result handleKey function
+
+/*-------------------------------- Functions --------------------------------*/
+
+functio initialize() {
+.   * winner = false
+.   * creates tile lookup table through tile.init() method
+.   * updates tile lookup table through desks.init() method
+.   * updates tile lookup table through terminals.init() method
+.   * starts accrumenting deadline timer
+.   * renders sprite in correct position based on hard coded
+.     start sprite.posX, sprite.posY
+}
+
+function handleKey(evt) {
+.   * check validity of key pressed (must be any arrow key or space);
+.   * depending on key pressed, runs sprite.move() function or sprite.interact()
+}
+
+function deadlineTimer() {
+.   * updates value of timer each second
+.   * renders timer node list in DOM based on game state (timer)
+.   * check results() after time runs out
+}
+
+function results() {
+.   * if (terminalsRemaining === 0 before timer runs out) {
+.       winner === true;
+.       play cooresponding animations/DOM manipulation;
+.     }
+.   * if (terminalsRemaining > 0 after timer runs out) {
+.       winner remains false;
+.       play cooresponding animations/DOM manipulation;
+.     }
+}
+
+/*===========================================================================*/
+
+// Things to do/not forget:
+
+// Computer bug screen can be red half transparent radial gradient flashing
+
+// Fix sprite speed functionality, gonna have to make sure that everything is ratio'd to the speed, otherwise, if speed is half as small, the map will also be half as small if not adjusted to it
+
+// Create dynamic desk placement set up, make sure to get rid of all the hard code related stuff for testing initial functionality. All of the work should be within js, choosing a random location, making the desks range and tiles it occupies, and then sending it to the DOM
+
+// look up table where key is the cood and bondry is the value 
