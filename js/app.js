@@ -1,22 +1,41 @@
 /*------------------------ Cached Element References ------------------------*/
 
+const mainContainer = document.querySelector(`.main-container`);
 const programmerAura = document.querySelector(`.sprite`);
 const programmer = document.querySelector(`.sprite-image`);
 const screen = document.querySelector(`.screen`);
+const deskImages = document.querySelectorAll(`.desk`); 
 
-const desks = document.querySelectorAll(`.desk`);
+const computer = document.createElement(`div`);
+  computer.classList.add(`computer`, `terminal-open`);
+const terminalScreen = document.createElement(`textarea`);
+  terminalScreen.classList.add(`terminal-screen`);
+  terminalScreen.type = `text`;
+  terminalScreen.value = `
+  var sandwich = document.querySelector('.sandwich');
 
-const desk = document.querySelector(`.desk-one`);
-
+  // Wrong
+  if (sandwich.id = 'tuna') {
+    // Do something...
+  }
+  
+  // Right
+  if (sandwich.id === 'tuna') {
+    // Do something...
+  }`;
+  computer.appendChild(terminalScreen);
 
 /*-------------------------------- Constants --------------------------------*/
 
-const keys = [
-  {code: 39, name: `right`}, 
-  {code: 37, name: `left`}, 
-  {code: 40, name: `down`}, 
-  {code: 38, name: `up`}
-];
+const keys = {
+  39: `right`,
+  37: `left`,
+  40: `down`,
+  38: `up`,
+  32: `space`,
+  27: `escape`,
+};
+
 const tileSize = programmer.clientWidth;
 const outerWallThickness = {right: 1, left: 1, bottom: 1, top: 2};
 const mapSize = {
@@ -26,8 +45,23 @@ const mapSize = {
 
 /*---------------------------- Variables (state) ----------------------------*/  
 
+let terminalsRemaining = 20;
 
 /*---------------------------- Classses / Object ----------------------------*/
+
+
+class Desk {
+  constructor(termDistFromXMin, nodeSrc) {
+    this.termDistFromXMin = termDistFromXMin;
+    this.nodeSrc = nodeSrc;
+  };
+};
+
+const desks = [];
+
+deskImages.forEach(desk => {
+  desks.push(new Desk([3, 6], desk));
+});
 
 const tiles = {};
 
@@ -51,7 +85,7 @@ for (let x = 0; x < mapSize.x; x++) {
       tiles[`${x}-${y}`] = {right: false, left: false, bottom: true, top: false, terminal: false};
     } else {
       desks.forEach(desk => {
-        assignDeskBoundaries(obstacleRangeFinder(desk));
+        assignDeskBoundaries(obstacleRangeFinder(desk.nodeSrc), desk);
       });
     };
   };
@@ -72,7 +106,8 @@ const sprite = {
     };
   },
   turn(key) {
-      programmer.src = `./assets/sprite_idle_${key.name}.gif`;
+    if (key === `right` || key === `left` || key === `down` || key === `up`)
+      programmer.src = `./assets/sprite_idle_${key}.gif`;
   },
   moveRight() {
     programmerAura.style.left = `${pixelTranslator(this.posX) + (this.spriteDim.x * this.speedTilesPerPress)}px`;
@@ -123,36 +158,38 @@ document.addEventListener(`keydown`, handleKey);
 /*-------------------------------- Functions --------------------------------*/
 
 function handleKey(evt) {
-  const key = keys.find(key => key.code === evt.keyCode);
-  if (!key) return;
+  const key = keys[`${evt.keyCode}`];
   sprite.turn(key);
-  if (key.name === `right` && !tiles[`${sprite.posX}-${sprite.posY}`].right) {
+  if (key === `right` && !tiles[`${sprite.posX}-${sprite.posY}`].right) {
     sprite.moveRight();
     sprite.changeLayer();
-  } else if (key.name === `left` && !tiles[`${sprite.posX}-${sprite.posY}`].left) {
+  } else if (key === `left` && !tiles[`${sprite.posX}-${sprite.posY}`].left) {
     sprite.moveLeft();
     sprite.changeLayer();
-  } else if (key.name === `down` && !tiles[`${sprite.posX}-${sprite.posY}`].bottom) {
+  } else if (key === `down` && !tiles[`${sprite.posX}-${sprite.posY}`].bottom) {
     sprite.moveDown();
     sprite.changeLayer();
-  } else if (key.name === `up` && !tiles[`${sprite.posX}-${sprite.posY}`].top) {
+  } else if (key === `up` && !tiles[`${sprite.posX}-${sprite.posY}`].top) {
     sprite.moveUp();
     sprite.changeLayer();
+  } else if (key === `space` && tiles[`${sprite.posX}-${sprite.posY}`].terminal && programmer.src === `http://127.0.0.1:5500/assets/sprite_idle_up.gif`) {
+    computer.classList.replace(`terminal-close`, `terminal-open`);
+    mainContainer.appendChild(computer);
+    terminalsRemaining--;
+  } else if (key === `escape`) {
+    console.log(`working`);
+    computer.classList.replace(`terminal-open`, `terminal-close`);
+
+    setTimeout(() => {
+      mainContainer.removeChild(computer);
+    }, 500);
+
   };
 };
-
 
 function pixelTranslator(num) {
   return !(num % tileSize) ? num / tileSize : num * tileSize;
 };
-
-console.log(`starting pos`, tiles[`${sprite.posX}-${sprite.posY}`]);
-
-
-
-
-
-
 
 function obstacleRangeFinder(obstacleNode) {
   const pos = {xMin: null, xMax: null, yMin: null, yMax: null};
@@ -163,10 +200,12 @@ function obstacleRangeFinder(obstacleNode) {
   return pos;
 };
 
-function assignDeskBoundaries(obstacleRange) {
+function assignDeskBoundaries(obstacleRange, obstacleObject) {
   for (let x = obstacleRange.xMin; x <= obstacleRange.xMax; x++) {
     for (let y = obstacleRange.yMin; y <= obstacleRange.yMax; y++) {
-      if (x === obstacleRange.xMin && y !== obstacleRange.yMin && y !== obstacleRange.yMax) {
+      if (x === obstacleRange.xMin + obstacleObject.termDistFromXMin[0] && y === obstacleRange.yMax || x === obstacleRange.xMin + obstacleObject.termDistFromXMin[1] && y === obstacleRange.yMax) {
+        tiles[`${x}-${y}`] = {right: false, left: false, bottom: false, top: true, terminal: true};
+      } else if (x === obstacleRange.xMin && y !== obstacleRange.yMin && y !== obstacleRange.yMax) {
         tiles[`${x}-${y}`] = {right: true, left: false, bottom: false, top: false, terminal: false};
       } else if (x === obstacleRange.xMax && y !== obstacleRange.yMin && y !== obstacleRange.yMax) {
         tiles[`${x}-${y}`] = {right: false, left: true, bottom: false, top: false, terminal: false};

@@ -169,3 +169,7 @@ function results() {
 // Create dynamic desk placement set up, make sure to get rid of all the hard code related stuff for testing initial functionality. All of the work should be within js, choosing a random location, making the desks range and tiles it occupies, and then sending it to the DOM
 
 // look up table where key is the cood and bondry is the value 
+
+
+
+SYNTAX HIGHLIGHTER     PRISM.JS

@@ -11,7 +11,7 @@ body {
   background: black;
   margin: 0;
   overflow: hidden;
-  height: 64rem;
+  height: 100vh;
   min-width: 1152px;
 }
 
@@ -34,10 +34,11 @@ body {
 }
 
 .screen {
-  background: url("../assets/map.png");  position: relative;
+  background: url("../assets/map.png");
+  position: relative;
   width: 1152px;
   height: 624px;
-  z-index: -2;
+  z-index: -1;
 }
 
 .desk {
@@ -77,6 +78,48 @@ body {
   transition: .2s;
   z-index: -1;
 }
+
+.computer {
+  width: 1536px;
+  height: 1344px;
+  justify-self: center;
+  position: absolute;
+  background: url("../assets/terminal_screen.png");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.terminal-screen {
+  position: absolute;
+  top: 23%;
+  left: 20.75%;
+  width: 57.5%;
+  height: 44.25%;
+  background: black;
+  color: greenyellow;
+}
+
+.terminal-open {
+  animation: .5s terminal-open;
+}
+
+.terminal-close {
+  animation: .5s terminal-close;
+}
+
+@keyframes terminal-open {
+  from {top: 100%; scale: .25;}
+  to {top: -5%; scale: 1}
+}
+
+@keyframes terminal-close {
+  from {top: -5%; scale: 1;}
+  to {top: 100%; scale: .25}
+}
+
+
 
 
 
