@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
   <script defer src="./js/app.js"></script>
   <title>Document</title>
@@ -11,8 +14,28 @@
 <body>
   <main class="main-container">
     <header class="main-header">
-      <div class="title">programmer_simulator</div>
-      <div class="deadline-container"></div>
+      <div class="title">programmer_simulator<span>&nbsp;</span></div>
+      <div class="deadline-container">
+        <div class="month"></div>
+        <div class="days">
+          <div class="day sunday">Sunday</div>
+          <div class="day monday">Monday</div>
+          <div class="day tuesday">Tuesday</div>
+          <div class="day wednesday">Wednesday</div>
+          <div class="day thursday">Thursday</div>
+          <div class="day friday">Friday</div>
+          <div class="day saturday">Saturday</div>
+        </div>
+        <div class="dates">
+          <div class="date"></div>
+          <div class="date"></div>
+          <div class="date"></div>
+          <div class="date"></div>
+          <div class="date"></div>
+          <div class="date"></div>
+          <div class="date"></div>
+        </div>
+      </div>
     </header>
     <div class="screen">
       <div class="desk desk-one"></div>
@@ -22,6 +45,9 @@
       <div class="sprite">
         <img class="sprite-image" src="./assets/sprite_idle_down.gif" alt="">
       </div>
+    </div>
+    <div class="computer computer-hidden">
+      <textarea class="terminal-screen" id="" cols="" rows=""></textarea>
     </div>
   </main>
 </body>

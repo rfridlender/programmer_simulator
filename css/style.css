@@ -4,6 +4,7 @@ html {
 
 *, *::before, *::after {
   box-sizing: inherit;
+  font-family: 'VT323', monospace;
 }
 
 body {
@@ -30,7 +31,50 @@ body {
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  font-size: 3rem;
+  color: greenyellow;
+}
 
+.deadline-container {
+  font-size: 1rem;
+  background: white;
+  color: black;
+  width: 100%;
+  height: 10rem;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  flex-flow: column nowrap;
+  text-align: center;
+
+}
+
+.month {
+  grid-area: month;
+}
+
+.days {
+  grid-area: days;
+  display: flex;
+  justify-content: space-around;
+}
+
+.day {
+  flex: 1;
+}
+
+.dates {
+  grid-area: days;
+  display: flex;
+  justify-content: space-around;
+}
+
+.date {
+  flex: 1;
+}
+
+.highlight-date {
+  background: red;
 }
 
 .screen {
@@ -83,12 +127,18 @@ body {
   width: 1536px;
   height: 1344px;
   justify-self: center;
+  align-self: center;
   position: absolute;
   background: url("../assets/terminal_screen.png");
   background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  top: 0%;
+  scale: 1 ;
+  transition: top .5s, scale .5s ease-in;
+}
+
+.computer-hidden {
+  top: 100%;
+  scale: .25;
 }
 
 .terminal-screen {
@@ -99,24 +149,27 @@ body {
   height: 44.25%;
   background: black;
   color: greenyellow;
+  caret-shape: block;
+  outline: none;
+  border: none;
+  padding: 1rem;
+  overflow-y: hidden;
 }
 
-.terminal-open {
-  animation: .5s terminal-open;
+span {
+  animation: blink 1s step-end infinite;
+  background: greenyellow;
+  color: #000;
 }
 
-.terminal-close {
-  animation: .5s terminal-close;
-}
-
-@keyframes terminal-open {
-  from {top: 100%; scale: .25;}
-  to {top: -5%; scale: 1}
-}
-
-@keyframes terminal-close {
-  from {top: -5%; scale: 1;}
-  to {top: 100%; scale: .25}
+@keyframes blink {
+  from,
+  to {
+    background: greenyellow;
+  }
+  50% {
+    background: black;
+  }
 }
 
 
