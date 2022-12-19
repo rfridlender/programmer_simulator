@@ -14,7 +14,7 @@ const computer = document.querySelector(`.computer`);
 const terminalScreen = document.querySelector(`.code`);
 const terminalImages = document.querySelectorAll(`.terminal`);
 const testButton = document.querySelector(`.test-button`);
-
+const testStatus = document.querySelector(`.test-status`);
 
 let problem = 
 `let sandwich = document.querySelector('.sandwich');
@@ -28,6 +28,7 @@ let solution =
 if (sandwich.id === 'tuna') {
   // Do something...
 }`;
+
 /*-------------------------------- Constants --------------------------------*/
 
 const keys = {
@@ -266,34 +267,38 @@ document.addEventListener(`keydown`, handleKey);
 testButton.addEventListener(`click`, handleClick);
 
 /*-------------------------------- Functions --------------------------------*/
-
+console.log(computer.classList[1]);
 function handleKey(evt) {
   const key = keys[`${evt.keyCode}`];
-  sprite.turn(key);
-  if (key === `right` && !tiles[`${sprite.posX}-${sprite.posY}`].right) {
-    sprite.moveRight();
-    sprite.changeLayer();
-  } else if (key === `left` && !tiles[`${sprite.posX}-${sprite.posY}`].left) {
-    sprite.moveLeft();
-    sprite.changeLayer();
-  } else if (key === `down` && !tiles[`${sprite.posX}-${sprite.posY}`].bottom) {
-    sprite.moveDown();
-    sprite.changeLayer();
-  } else if (key === `up` && !tiles[`${sprite.posX}-${sprite.posY}`].top) {
-    sprite.moveUp();
-    sprite.changeLayer();
-  } else if (key === `space` && tiles[`${sprite.posX}-${sprite.posY}`].terminal && terminals[`${sprite.posX}-${sprite.posY}`].bug && programmer.src === `http://127.0.0.1:5500/assets/sprite_idle_up.gif`) {
-    computer.classList.remove(`computer-hidden`);
-    terminalsRemaining--;
-  } else if (key === `escape`) {
+  if (computer.classList[1] === `computer-hidden`) {
+    sprite.turn(key);
+    if (key === `right` && !tiles[`${sprite.posX}-${sprite.posY}`].right) {
+      sprite.moveRight();
+      sprite.changeLayer();
+    } else if (key === `left` && !tiles[`${sprite.posX}-${sprite.posY}`].left) {
+      sprite.moveLeft();
+      sprite.changeLayer();
+    } else if (key === `down` && !tiles[`${sprite.posX}-${sprite.posY}`].bottom) {
+      sprite.moveDown();
+      sprite.changeLayer();
+    } else if (key === `up` && !tiles[`${sprite.posX}-${sprite.posY}`].top) {
+      sprite.moveUp();
+      sprite.changeLayer();
+    } else if (key === `space` && tiles[`${sprite.posX}-${sprite.posY}`].terminal && terminals[`${sprite.posX}-${sprite.posY}`].bug && programmer.src === `http://127.0.0.1:5500/assets/sprite_idle_up.gif`) {
+      computer.classList.remove(`computer-hidden`);
+      terminalsRemaining--;
+    };
+  };
+  if (key === `escape`) {
     computer.classList.add(`computer-hidden`);
   };
 };
 
 function handleClick() {
-  runTests();
-  if (terminalScreen.value === solution) {
+  if (testButton.innerHTML === `TEST`) {
     runTests();
+  } else if (testButton.innerHTML === `MERGE`) {
+    runMerge();
   };
 };
 
@@ -390,17 +395,20 @@ terminalImages.forEach((terminalImg, idx) => {
 });
 
 function runTests() {
+  testButton.removeEventListener(`click`, handleClick);
+  testStatus.classList.remove(`failed`);
+  let solutionText = terminalScreen.value;
+  console.log("🚀 ~ file: app.js:392 ~ runTests ~ solutionText", solutionText)
   let testText = terminalScreen.value.split(``);
   let binaryText = testText.map(char => {
     return char = createRandomByte();
   });
-  console.log(binaryText);
   for (let i = 0; i < testText.length; ) {
     testText[0] = binaryText[0];
     setTimeout(() => {
       testText[i] = binaryText[i];
       terminalScreen.value = testText.join(` `);
-    }, 50 * i++);
+    }, 25 * i++);
   };
   let interpreting = `INTERPRETING`;
   let loopNumber = 0;
@@ -428,7 +436,43 @@ function runTests() {
       };
     };
     if (loopNumber === 15) {
+      terminalScreen.value = solutionText;
+      displayResults();
+      testButton.addEventListener(`click`, handleClick);
       clearInterval(interpretAndTest);
+    };
+  }, 300);
+};
+
+function displayResults() {
+  if (terminalScreen.value === terminals[`${sprite.posX}-${sprite.posY}`].solution) {
+    testStatus.innerHTML = `TEST PASSED`;
+    testButton.innerHTML = `MERGE`;
+    testStatus.classList.add(`passed`);
+  } else {
+    testStatus.innerHTML = `TEST FAILED`;
+    testButton.innerHTML = `TEST`;
+    testStatus.classList.add(`failed`);
+  };
+};
+
+function runMerge() {
+  testStatus.classList.remove(`passed`);
+  let merging = `MERGING`;
+  let loopNumber = 0;
+  testButton.innerHTML = merging;
+  const mergingProgress = setInterval(() => {
+    loopNumber++;
+    if (loopNumber < 8) {
+      if (merging.length < 10) {
+        testButton.innerHTML = merging += `.`;
+      } else {
+        merging = `MERGING`;
+        testButton.innerHTML = merging;
+      };
+    } else {
+      testButton.innerHTML = `MERGE COMPLETE`;
+      clearInterval(mergingProgress);
     };
   }, 300);
 };
@@ -444,50 +488,4 @@ function createRandomByte() {
 };
 
 bugRandomTerminal();
-deadlineTimer();
-
-/*------------------------------ Old Material -------------------------------*/
-
-// class Desk {
-//   constructor(termDistFromXMin, nodeSrc) {
-//     this.termDistFromXMin = termDistFromXMin;
-//     this.nodeSrc = nodeSrc;
-//   };
-// };
-
-// const desks = [];
-
-// deskImages.forEach(desk => {
-//   desks.push(new Desk([3, 6], desk));
-// });
-
-// function obstacleRangeFinder(obstacleNode) {
-//   const pos = {xMin: null, xMax: null, yMin: null, yMax: null};
-//   pos.xMin = pixelTranslator(obstacleNode.offsetLeft);
-//   pos.xMax = pos.xMin + pixelTranslator(obstacleNode.clientWidth) - 1;
-//   pos.yMin = pixelTranslator(obstacleNode.offsetTop);
-//   pos.yMax = pos.yMin + pixelTranslator(obstacleNode.clientHeight) - 1;
-//   return pos;
-// };
-
-// function assignDeskBoundaries(obstacleRange, obstacleObject) {
-//   for (let x = obstacleRange.xMin; x <= obstacleRange.xMax; x++) {
-//     for (let y = obstacleRange.yMin; y <= obstacleRange.yMax; y++) {
-//       if (x === obstacleRange.xMin + obstacleObject.termDistFromXMin[0] && y === obstacleRange.yMax || x === obstacleRange.xMin + obstacleObject.termDistFromXMin[1] && y === obstacleRange.yMax) {
-//         tiles[`${x}-${y}`] = {right: false, left: false, bottom: false, top: true, terminal: true};
-//       } else if (x === obstacleRange.xMin && y !== obstacleRange.yMin && y !== obstacleRange.yMax) {
-//         tiles[`${x}-${y}`] = {right: true, left: false, bottom: false, top: false, terminal: false};
-//       } else if (x === obstacleRange.xMax && y !== obstacleRange.yMin && y !== obstacleRange.yMax) {
-//         tiles[`${x}-${y}`] = {right: false, left: true, bottom: false, top: false, terminal: false};
-//       } else if (y === obstacleRange.yMin && x !== obstacleRange.xMin && x !== obstacleRange.xMax) {
-//         tiles[`${x}-${y}`] = {right: false, left: false, bottom: true, top: false, terminal: false};
-//       } else if (y === obstacleRange.yMax && x !== obstacleRange.xMin && x !== obstacleRange.xMax) {
-//         tiles[`${x}-${y}`] = {right: false, left: false, bottom: false, top: true, terminal: false};
-//       } else {
-//         tiles[`${x}-${y}`] = {right: false, left: false, bottom: false, top: false, terminal: false};
-//       };
-//     };
-//   };
-// };
-
-// assignDeskBoundaries(obstacleRangeFinder(desk.nodeSrc), desk);
+// deadlineTimer();
