@@ -267,7 +267,7 @@ document.addEventListener(`keydown`, handleKey);
 testButton.addEventListener(`click`, handleClick);
 
 /*-------------------------------- Functions --------------------------------*/
-console.log(computer.classList[1]);
+
 function handleKey(evt) {
   const key = keys[`${evt.keyCode}`];
   if (computer.classList[1] === `computer-hidden`) {
@@ -285,8 +285,8 @@ function handleKey(evt) {
       sprite.moveUp();
       sprite.changeLayer();
     } else if (key === `space` && tiles[`${sprite.posX}-${sprite.posY}`].terminal && terminals[`${sprite.posX}-${sprite.posY}`].bug && programmer.src === `http://127.0.0.1:5500/assets/sprite_idle_up.gif`) {
+      renderTerminalScreen();
       computer.classList.remove(`computer-hidden`);
-      terminalsRemaining--;
     };
   };
   if (key === `escape`) {
@@ -311,7 +311,7 @@ function assignDeskBoundaries(desk) {
     for (let y = desk[1]; y <= desk[3]; y++) {
       if (x === desk[0] + desk[4] && y === desk[3] || x === desk[0] + desk[5] && y === desk[3]) {
         tiles[`${x}-${y}`] = {right: false, left: false, bottom: false, top: true, terminal: true};
-        terminals[`${x}-${y}`] = {bug: false, problem: problem, solution: solution};
+        terminals[`${x}-${y}`] = {bug: false, problem: `value at terminal ${x}-${y}`, solution: `solution at terminal ${x}-${y}`};
       } else if (x === desk[0] && y !== desk[1] && y !== desk[3]) {
         tiles[`${x}-${y}`] = {right: true, left: false, bottom: false, top: false, terminal: false};
       } else if (x === desk[2] && y !== desk[1] && y !== desk[3]) {
@@ -387,13 +387,20 @@ function bugRandomTerminal() {
   let randomIdx = Math.floor(Math.random() * terminalImages.length);
   terminals[terminalKeys[randomIdx]].nodeSrc.src = `./assets/desk-1-true.gif`;
   terminals[terminalKeys[randomIdx]].bug = true;
-  terminalScreen.value = terminals[terminalKeys[randomIdx]].problem;
+  // terminalScreen.value = terminals[terminalKeys[randomIdx]].problem;
+};
+
+function renderTerminalScreen() {
+  testButton.innerHTML = `TEST`;
+  testStatus.classList.remove(`passed`);
+  testStatus.classList.remove(`failed`);
+  terminalScreen.value = terminals[`${sprite.posX}-${sprite.posY}`].problem;
 };
 
 function debugTerminal() {
   bugsRemaining--;
   terminals[`${sprite.posX}-${sprite.posY}`].bug = false;
-  terminals[`${sprite.posX}-${sprite.posY}`].nodeSrc.src = `./assets/desk-1-false.gif`
+  terminals[`${sprite.posX}-${sprite.posY}`].nodeSrc.src = `./assets/desk-1-false.gif`;
 };
 
 terminalImages.forEach((terminalImg, idx) => {
@@ -404,7 +411,6 @@ function runTests() {
   testButton.removeEventListener(`click`, handleClick);
   testStatus.classList.remove(`failed`);
   let solutionText = terminalScreen.value;
-  console.log("🚀 ~ file: app.js:392 ~ runTests ~ solutionText", solutionText)
   let testText = terminalScreen.value.split(``);
   let binaryText = testText.map(char => {
     return char = createRandomByte();
@@ -495,4 +501,7 @@ function createRandomByte() {
 };
 
 bugRandomTerminal();
+setInterval(() => {
+  bugRandomTerminal();
+}, 30000);
 // deadlineTimer();
