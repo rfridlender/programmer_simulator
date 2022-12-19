@@ -394,10 +394,12 @@ function runTests() {
   let binaryText = testText.map(char => {
     return char = `10101010`
   });
-  setInterval(() => {
-    testText.forEach(testText)
-    terminalScreen.value = testText
-  }, 100);
+  for (let i = 0; i < testText.length; ) {
+    setTimeout(() => {
+      testText[i] = binaryText[i];
+      terminalScreen.value = testText.join(``);
+    }, 50 * i++);
+  };
   let interpreting = `INTERPRETING`;
   let loopNumber = 0;
   let testing = `TESTING`
