@@ -113,6 +113,12 @@ body {
   top: 336px;
 }
 
+.terminal {
+  position: relative;
+  top: 48px;
+  left: 96px;
+}
+
 .sprite {
   width: 48px;
   height: 96px;

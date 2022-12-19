@@ -24,6 +24,7 @@ const terminalScreen = document.querySelector(`.terminal-screen`);
   if (sandwich.id === 'tuna') {
     // Do something...
   }`;
+  const terminalImages = document.querySelectorAll(`.terminal`);
 
 /*-------------------------------- Constants --------------------------------*/
 
@@ -162,6 +163,8 @@ let daysRemaining = 30;
 
 /*---------------------------- Classses / Object ----------------------------*/
 
+const terminals = {};
+
 const desks = [
   [2, 3, 11, 6, 3, 6],
   [12, 3, 21, 6, 3, 6],
@@ -297,6 +300,7 @@ function assignDeskBoundaries(desk) {
     for (let y = desk[1]; y <= desk[3]; y++) {
       if (x === desk[0] + desk[4] && y === desk[3] || x === desk[0] + desk[5] && y === desk[3]) {
         tiles[`${x}-${y}`] = {right: false, left: false, bottom: false, top: true, terminal: true};
+        terminals[`${x}-${y}`] = {bug: false, value: `value at ${x}-${y}`};
       } else if (x === desk[0] && y !== desk[1] && y !== desk[3]) {
         tiles[`${x}-${y}`] = {right: true, left: false, bottom: false, top: false, terminal: false};
       } else if (x === desk[2] && y !== desk[1] && y !== desk[3]) {
@@ -367,6 +371,22 @@ function deadlineTimer() {
   }, 1000);
 };
 
+let terminalKeys = Object.keys(terminals);
+
+function bugRandomTerminal() {
+  let randomIdx = Math.floor(Math.random() * terminalImages.length);
+  terminals[terminalKeys[randomIdx]].nodeSrc.src = `./assets/desk-1-true.gif`;
+  terminals[terminalKeys[randomIdx]].bug = true;
+  terminalScreen.value = terminals[terminalKeys[randomIdx]].value
+};
+
+terminalImages.forEach((terminalImg, idx) => {
+  terminals[terminalKeys[idx]].nodeSrc = terminalImg;
+});
+
+console.log(terminals);
+
+bugRandomTerminal();
 deadlineTimer();
 
 /*------------------------------ Old Material -------------------------------*/
