@@ -291,9 +291,9 @@ function handleKey(evt) {
 };
 
 function handleClick() {
-  console.log(`working`);
+  runTests();
   if (terminalScreen.value === solution) {
-    console.log(`solved`);
+    runTests();
   };
 };
 
@@ -388,6 +388,46 @@ function bugRandomTerminal() {
 terminalImages.forEach((terminalImg, idx) => {
   terminals[terminalKeys[idx]].nodeSrc = terminalImg;
 });
+
+function runTests() {
+  let testText = terminalScreen.value.split(``);
+  let binaryText = testText.map(char => {
+    return char = `10101010`
+  });
+  setInterval(() => {
+    testText.forEach(testText)
+    terminalScreen.value = testText
+  }, 100);
+  let interpreting = `INTERPRETING`;
+  let loopNumber = 0;
+  let testing = `TESTING`
+  testButton.innerHTML = interpreting;
+  const interpretAndTest = setInterval(() => {
+    loopNumber++;
+    if (loopNumber < 8) {
+      if (interpreting.length < 15) {
+        testButton.innerHTML = interpreting += `.`;
+      } else {
+        interpreting = `INTERPRETING`;
+        testButton.innerHTML = interpreting;
+      };
+    } else {
+      if (testButton.innerHTML === `INTERPRETING...`) {
+        testButton.innerHTML = testing;
+      } else {
+        if (testing.length < 10) {
+          testButton.innerHTML = testing += `.`;
+        } else {
+          testing = `TESTING`;
+          testButton.innerHTML = testing;
+        };
+      };
+    };
+    if (loopNumber === 15) {
+      clearInterval(interpretAndTest);
+    };
+  }, 300);
+};
 
 bugRandomTerminal();
 deadlineTimer();

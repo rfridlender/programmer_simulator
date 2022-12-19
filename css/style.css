@@ -171,14 +171,48 @@ body {
   font-size: 2rem;
 }
 
-.test-button {
-  height: 10%;
+.test-container {
+  display: flex;
+  margin: 1rem;
+  gap: 1rem;
+}
+
+.test-status {
+  display: none;
+  flex: 1;
+  height: 100%;
   background: black;
   color: greenyellow;
   border: 2px solid greenyellow;
-  margin: 1rem;
   border-radius: 8px;
   font-size: 2rem;
+  text-align: center;
+}
+
+.failed {
+  display: initial;
+  color: black;
+  background: red;
+  border: none;
+  animation: normal flashing 1s infinite;
+}
+
+.passed {
+  display: initial;
+  color: black;
+  background: greenyellow;
+  border: none;
+}
+
+.test-button {
+  flex: 1;
+  height: 100%;
+  background: black;
+  color: greenyellow;
+  border: 2px solid greenyellow;
+  border-radius: 8px;
+  font-size: 2rem;
+  outline: none;
 }
 
 span {
@@ -197,3 +231,11 @@ span {
   }
 }
 
+@keyframes flashing {
+  from, to {
+    visibility: visible;
+  }
+  25%, 75% {
+    visibility: hidden;
+  }
+}
