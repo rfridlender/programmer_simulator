@@ -11,21 +11,22 @@ const screen = document.querySelector(`.screen`);
 const deskImages = document.querySelectorAll(`.desk`); 
 
 const computer = document.querySelector(`.computer`);
-const terminalScreen = document.querySelector(`.terminal-screen`);
-  terminalScreen.value = `
-  var sandwich = document.querySelector('.sandwich');
+const terminalScreen = document.querySelector(`.code`);
+const terminalImages = document.querySelectorAll(`.terminal`);
 
-  // Wrong
-  if (sandwich.id = 'tuna') {
-    // Do something...
-  }
-  
-  // Right
-  if (sandwich.id === 'tuna') {
-    // Do something...
-  }`;
-  const terminalImages = document.querySelectorAll(`.terminal`);
 
+let problem = 
+`let sandwich = document.querySelector('.sandwich');
+
+if (sandwich.id = 'tuna') {
+  // Do something...
+}`;
+let solution = 
+`let sandwich = document.querySelector('.sandwich');
+
+if (sandwich.id === 'tuna') {
+  // Do something...
+}`;
 /*-------------------------------- Constants --------------------------------*/
 
 const keys = {
@@ -283,7 +284,7 @@ function handleKey(evt) {
   } else if (key === `up` && !tiles[`${sprite.posX}-${sprite.posY}`].top) {
     sprite.moveUp();
     sprite.changeLayer();
-  } else if (key === `space` && tiles[`${sprite.posX}-${sprite.posY}`].terminal && programmer.src === `http://127.0.0.1:5500/assets/sprite_idle_up.gif`) {
+  } else if (key === `space` && tiles[`${sprite.posX}-${sprite.posY}`].terminal && terminals[`${sprite.posX}-${sprite.posY}`].bug && programmer.src === `http://127.0.0.1:5500/assets/sprite_idle_up.gif`) {
     computer.classList.remove(`computer-hidden`);
     terminalsRemaining--;
   } else if (key === `escape`) {
@@ -300,7 +301,7 @@ function assignDeskBoundaries(desk) {
     for (let y = desk[1]; y <= desk[3]; y++) {
       if (x === desk[0] + desk[4] && y === desk[3] || x === desk[0] + desk[5] && y === desk[3]) {
         tiles[`${x}-${y}`] = {right: false, left: false, bottom: false, top: true, terminal: true};
-        terminals[`${x}-${y}`] = {bug: false, value: `value at ${x}-${y}`};
+        terminals[`${x}-${y}`] = {bug: false, problem: problem, solution: solution};
       } else if (x === desk[0] && y !== desk[1] && y !== desk[3]) {
         tiles[`${x}-${y}`] = {right: true, left: false, bottom: false, top: false, terminal: false};
       } else if (x === desk[2] && y !== desk[1] && y !== desk[3]) {
@@ -376,7 +377,7 @@ function bugRandomTerminal() {
   let randomIdx = Math.floor(Math.random() * terminalImages.length);
   terminals[terminalKeys[randomIdx]].nodeSrc.src = `./assets/desk-1-true.gif`;
   terminals[terminalKeys[randomIdx]].bug = true;
-  terminalScreen.value = terminals[terminalKeys[randomIdx]].value
+  terminalScreen.value = terminals[terminalKeys[randomIdx]].problem;
 };
 
 terminalImages.forEach((terminalImg, idx) => {

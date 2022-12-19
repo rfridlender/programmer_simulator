@@ -155,11 +155,30 @@ body {
   height: 44.25%;
   background: black;
   color: greenyellow;
+  display: flex;
+  flex-flow: column;
+}
+
+.code {
+  height: 90%;
+  background: black;
+  color: greenyellow;
   caret-shape: block;
   outline: none;
   border: none;
-  padding: 1rem;
+  margin: 1rem;
   overflow-y: hidden;
+  font-size: 2rem;
+}
+
+.test-button {
+  height: 10%;
+  background: black;
+  color: greenyellow;
+  border: 2px solid greenyellow;
+  margin: 1rem;
+  border-radius: 8px;
+  font-size: 2rem;
 }
 
 span {
