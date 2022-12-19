@@ -13,6 +13,7 @@ const deskImages = document.querySelectorAll(`.desk`);
 const computer = document.querySelector(`.computer`);
 const terminalScreen = document.querySelector(`.code`);
 const terminalImages = document.querySelectorAll(`.terminal`);
+const testButton = document.querySelector(`.test-button`);
 
 
 let problem = 
@@ -229,7 +230,6 @@ const sprite = {
     }, this.runAnimationDuration);
     this.step *= -1;
     this.posX += this.speedTilesPerPress;
-    console.log(`new pos`, this.posX, this.posY, tiles[`${sprite.posX}-${sprite.posY}`]);
   },
   moveLeft() {
     programmerAura.style.left = `${pixelTranslator(this.posX) - (this.spriteDim.x * this.speedTilesPerPress)}px`;
@@ -239,7 +239,6 @@ const sprite = {
     }, this.runAnimationDuration);
     this.step *= -1;
     this.posX -= this.speedTilesPerPress;
-    console.log(`new pos`, this.posX, this.posY, tiles[`${sprite.posX}-${sprite.posY}`]);
   },
   moveDown() {
     programmerAura.style.top = `${(pixelTranslator(this.posY)) * this.speedTilesPerPress}px`;
@@ -249,7 +248,6 @@ const sprite = {
     }, this.runAnimationDuration);
     this.step *= -1;
     this.posY += this.speedTilesPerPress;
-    console.log(`new pos`, this.posX, this.posY, tiles[`${sprite.posX}-${sprite.posY}`]);
   },
   moveUp() {
     programmerAura.style.top = `${pixelTranslator(this.posY) - (this.spriteDim.y  * this.speedTilesPerPress)}px`;
@@ -259,13 +257,13 @@ const sprite = {
     }, this.runAnimationDuration);
     this.step *= -1;
     this.posY -= this.speedTilesPerPress;
-    console.log(`new pos`, this.posX, this.posY, tiles[`${sprite.posX}-${sprite.posY}`]);
   },
 };
 
 /*----------------------------- Event Listeners ----------------------------*/
 
 document.addEventListener(`keydown`, handleKey);
+testButton.addEventListener(`click`, handleClick);
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -289,6 +287,13 @@ function handleKey(evt) {
     terminalsRemaining--;
   } else if (key === `escape`) {
     computer.classList.add(`computer-hidden`);
+  };
+};
+
+function handleClick() {
+  console.log(`working`);
+  if (terminalScreen.value === solution) {
+    console.log(`solved`);
   };
 };
 
@@ -383,8 +388,6 @@ function bugRandomTerminal() {
 terminalImages.forEach((terminalImg, idx) => {
   terminals[terminalKeys[idx]].nodeSrc = terminalImg;
 });
-
-console.log(terminals);
 
 bugRandomTerminal();
 deadlineTimer();
