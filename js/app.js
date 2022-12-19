@@ -97,7 +97,7 @@ dates.forEach(date => {
     dates[5].innerHTML = todayDate + 4;
     dates[6].innerHTML = todayDate + 5;
     todayDate += 5;
-    daysInWeekRemaining = 6;
+    daysInFirstWeekRemaining = 6;
     dateSelector = 1;
   } else if (todayDay === `Tue` && date === dates[2]) {
     dates[0].innerHTML = todayDate - 2;
@@ -357,7 +357,6 @@ function deadlineTimer() {
   dateSelector++;
   setInterval(() => {
     daysRemaining--;
-    console.log(daysRemaining);
     if (dateSelector < 7 && dateSelector > 0) {
       dates[dateSelector].classList.add(`highlight-date`);
       dates[dateSelector - 1].classList.remove(`highlight-date`);
