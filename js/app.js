@@ -392,12 +392,14 @@ terminalImages.forEach((terminalImg, idx) => {
 function runTests() {
   let testText = terminalScreen.value.split(``);
   let binaryText = testText.map(char => {
-    return char = `10101010`
+    return char = createRandomByte();
   });
+  console.log(binaryText);
   for (let i = 0; i < testText.length; ) {
+    testText[0] = binaryText[0];
     setTimeout(() => {
       testText[i] = binaryText[i];
-      terminalScreen.value = testText.join(``);
+      terminalScreen.value = testText.join(` `);
     }, 50 * i++);
   };
   let interpreting = `INTERPRETING`;
@@ -429,6 +431,16 @@ function runTests() {
       clearInterval(interpretAndTest);
     };
   }, 300);
+};
+
+function createRandomByte() {
+  let randomByte = ``
+  for (let i = 0; i < 8; i++) {
+    let randomBit;
+    Math.random() < .5 ? randomBit = 0 : randomBit = 1;
+    randomByte += randomBit;
+  };
+  return randomByte;
 };
 
 bugRandomTerminal();
