@@ -161,7 +161,7 @@ dates.forEach(date => {
 
 /*---------------------------- Variables (state) ----------------------------*/  
 
-let terminalsRemaining = 20;
+let bugsRemaining = 20;
 let daysRemaining = 30;
 
 /*---------------------------- Classses / Object ----------------------------*/
@@ -390,6 +390,12 @@ function bugRandomTerminal() {
   terminalScreen.value = terminals[terminalKeys[randomIdx]].problem;
 };
 
+function debugTerminal() {
+  bugsRemaining--;
+  terminals[`${sprite.posX}-${sprite.posY}`].bug = false;
+  terminals[`${sprite.posX}-${sprite.posY}`].nodeSrc.src = `./assets/desk-1-false.gif`
+};
+
 terminalImages.forEach((terminalImg, idx) => {
   terminals[terminalKeys[idx]].nodeSrc = terminalImg;
 });
@@ -472,6 +478,7 @@ function runMerge() {
       };
     } else {
       testButton.innerHTML = `MERGE COMPLETE`;
+      debugTerminal();
       clearInterval(mergingProgress);
     };
   }, 300);
