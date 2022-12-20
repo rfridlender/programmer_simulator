@@ -162,7 +162,7 @@ dates.forEach(date => {
 /*---------------------------- Variables (state) ----------------------------*/  
 
 let bugsRemaining = 20;
-let daysRemaining = 30;
+let daysRemaining = 90;
 
 /*---------------------------- Classses / Object ----------------------------*/
 
@@ -345,38 +345,46 @@ function deadlineTimer() {
         date.innerHTML = `${todayDate += 1}`;
       };
     });
-    setInterval(() => {
-      dates.forEach(date => {
-        if (todayDate < monthTable[`${todayMonth}`][1]) {
-          date.innerHTML = `${todayDate += 1}`;
-        } else {
-          month.innerHTML = monthTable[`${nextMonth}`][0];
-          todayMonth = nextMonth;
-          nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
-          if (nextMonthIndex === 12) {
-            nextMonth = monthTableKeys[0];
+    const weekByWeek = setInterval(() => {
+      if (daysRemaining > 0) {
+        dates.forEach(date => {
+          if (todayDate < monthTable[`${todayMonth}`][1]) {
+            date.innerHTML = `${todayDate += 1}`;
           } else {
-            nextMonth = monthTableKeys[nextMonthIndex];
+            month.innerHTML = monthTable[`${nextMonth}`][0];
+            todayMonth = nextMonth;
+            nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
+            if (nextMonthIndex === 12) {
+              nextMonth = monthTableKeys[0];
+            } else {
+              nextMonth = monthTableKeys[nextMonthIndex];
+            };
+            todayDate = 0;
+            date.innerHTML = `${todayDate += 1}`;
           };
-          todayDate = 0;
-          date.innerHTML = `${todayDate += 1}`;
-        };
-      });
+        });
+      } else {
+        clearInterval(weekByWeek);
+      };
     }, 7000);
   }, daysInFirstWeekRemaining * 1000);
   dates[dateSelector].classList.add(`highlight-date`);
   dateSelector++;
-  setInterval(() => {
-    daysRemaining--;
-    if (dateSelector < 7 && dateSelector > 0) {
-      dates[dateSelector].classList.add(`highlight-date`);
-      dates[dateSelector - 1].classList.remove(`highlight-date`);
-      dateSelector++;
+  const dayByDay = setInterval(() => {
+    if (daysRemaining > 0) {
+      daysRemaining--;
+      if (dateSelector < 7 && dateSelector > 0) {
+        dates[dateSelector].classList.add(`highlight-date`);
+        dates[dateSelector - 1].classList.remove(`highlight-date`);
+        dateSelector++;
+      } else {
+        dateSelector = 0;
+        dates[dateSelector].classList.add(`highlight-date`);
+        dates[6].classList.remove(`highlight-date`);
+        dateSelector++;
+      };
     } else {
-      dateSelector = 0;
-      dates[dateSelector].classList.add(`highlight-date`);
-      dates[6].classList.remove(`highlight-date`);
-      dateSelector++;
+      clearInterval(dayByDay);
     };
   }, 1000);
 };
@@ -510,5 +518,5 @@ function createRandomByte() {
 bugRandomTerminal();
 setInterval(() => {
   bugRandomTerminal();
-}, 1000);
-// deadlineTimer();
+}, 30000);
+deadlineTimer();
