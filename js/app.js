@@ -384,10 +384,16 @@ function deadlineTimer() {
 let terminalKeys = Object.keys(terminals);
 
 function bugRandomTerminal() {
-  let randomIdx = Math.floor(Math.random() * terminalImages.length);
-  terminals[terminalKeys[randomIdx]].nodeSrc.src = `./assets/desk-1-true.gif`;
-  terminals[terminalKeys[randomIdx]].bug = true;
-  // terminalScreen.value = terminals[terminalKeys[randomIdx]].problem;
+  let availableTerminalKeys = terminalKeys.filter(terminalKey => {
+    if (terminals[terminalKey].bug === false) {
+      return terminalKey;
+    };
+  });
+  if (availableTerminalKeys.length) {
+    let randomIdx = Math.floor(Math.random() * availableTerminalKeys.length);
+    terminals[availableTerminalKeys[randomIdx]].nodeSrc.src = `./assets/desk-1-true.gif`;
+    terminals[availableTerminalKeys[randomIdx]].bug = true;
+  };
 };
 
 function renderTerminalScreen() {
@@ -399,6 +405,7 @@ function renderTerminalScreen() {
 
 function debugTerminal() {
   bugsRemaining--;
+  console.log(bugsRemaining);
   terminals[`${sprite.posX}-${sprite.posY}`].bug = false;
   terminals[`${sprite.posX}-${sprite.posY}`].nodeSrc.src = `./assets/desk-1-false.gif`;
 };
@@ -503,5 +510,5 @@ function createRandomByte() {
 bugRandomTerminal();
 setInterval(() => {
   bugRandomTerminal();
-}, 30000);
+}, 1000);
 // deadlineTimer();
