@@ -16,26 +16,85 @@ body {
   min-width: 1152px;
 }
 
-.main-container {  width: 100%;
+.main-container {  
+  width: 100%;
   height: 100%;
-  display: grid;
-  grid-auto-flow: row;
+  display: flex;
+  flex-flow: column nowrap;
   justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.date-container {
+  width: 1152px;
+  height: 288px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-.main-header {
+.current-container, .deadline-container {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 25%;
+  height: 100%;
+}
+
+.current-month, .deadline-month {
+  font-family: 'Orbitron', sans-serif;
   width: 100%;
   height: 25%;
   display: flex;
-  flex-flow: column;
   justify-content: center;
   align-items: center;
+  color: black;
+  text-align: center;
+  font-size: 2.5rem;
+  background: lightgray;
+}
+
+.current-date, .deadline-date {
+  font-family: 'Cedarville Cursive', cursive;
+  width: 100%;
+  height: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: red;
+  font-size: 12rem;
+}
+
+.title-container {
+  height: 100%;
+  width: 50%;
+  background: black;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-flow: column nowrap;
   font-size: 3rem;
   color: greenyellow;
 }
 
-.deadline-container {
+.deadline {
+  font-family: 'Cedarville Cursive', cursive;
+  position: absolute;
+  font-size: 3rem;
+  top: 25%;
+  left: 5%;
+  padding: 0 1rem;
+  line-height: 2rem;
+  color: black;
+  transform: rotate(-30deg);
+  background: rgba(255, 247, 0, 0.5);
+}
+
+/* .deadline-container {
   font-size: 1rem;
   background: white;
   color: black;
@@ -75,7 +134,7 @@ body {
 
 .highlight-date {
   background: red;
-}
+} */
 
 .screen {
   background: url("../assets/map.png");
