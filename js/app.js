@@ -64,11 +64,11 @@ monthTable = {
   Sep: [`September`, 30],
   Oct: [`October`, 31],
   Nov: [`November`, 30],
-  Dec: [`December`, 31]
+  Dec: [`December`, 31],
 };
 let daysInFirstWeekRemaining;
 let dateSelector;
-let todayMonth = Date().split(` `)[1]
+let todayMonth = Date().split(` `)[1];
   month.innerHTML = monthTable[`${todayMonth}`][0];
 let todayDay = Date().split(` `)[0];
 let todayDate = +Date().split(` `)[2];
@@ -162,7 +162,7 @@ dates.forEach(date => {
 /*---------------------------- Variables (state) ----------------------------*/  
 
 let bugsRemaining = 20;
-let daysRemaining = 90;
+let daysRemaining = 30;
 
 /*---------------------------- Classses / Object ----------------------------*/
 
@@ -387,6 +387,26 @@ function deadlineTimer() {
       clearInterval(dayByDay);
     };
   }, 1000);
+};
+
+function calculateDeadline() {
+  let startingDate = +Date().split(` `)[2];
+  let startingMonth = Date().split(` `)[1]; 
+  let nextSimMonthIndex = monthTableKeys.indexOf(startingMonth) + 1;
+  for (let i = 0; i <= daysRemaining; i++) {
+    if (startingDate <= monthTable[startingMonth][1]) {
+      startingDate++;
+    } else {
+      if (nextSimMonthIndex === 12) {
+        nextSimMonthIndex = 0;
+      } else {
+        nextSimMonthIndex += 1;
+      };
+      startingMonth = monthTableKeys[nextSimMonthIndex];
+      startingDate = 1;
+    };
+  };
+  return [startingMonth, startingDate];
 };
 
 let terminalKeys = Object.keys(terminals);
