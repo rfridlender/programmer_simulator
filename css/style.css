@@ -103,13 +103,14 @@ input {
   width: 5rem;
 }
 
-.start-button {
+.start-button, .play-again {
   border: 2px solid greenyellow;
   border-radius: 8px;
   padding: 0 1rem;
+  text-align: center;
 }
 
-.start-button:hover {
+.start-button:hover, .play-again:hover {
   border-radius: 8px;
   color: black;
   background: greenyellow;

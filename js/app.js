@@ -7,8 +7,12 @@ const currentDate = document.querySelector(`.current-date`);
 const deadlineMonth = document.querySelector(`.deadline-month`);
 const deadlineDate = document.querySelector(`.deadline-date`);
 
-const message = document.querySelector(`.message`);
+const messageContainer = document.querySelector(`.message-container`);
 const startSettings = document.querySelector(`.start-settings`);
+
+const message = document.querySelector(`.message`);
+const playAgain = document.querySelector(`.play-again`);
+
 
 const startButton = document.querySelector(`.start-button`);
 const deadlineRemainingBox = document.querySelector(`.deadline-remaining`);
@@ -92,6 +96,7 @@ if (nextMonthIndex === 12) {
 
 let bugsRemaining, daysRemaining;
 let winner = false;
+let gameOver = false;
 
 /*---------------------------- Classses / Object ----------------------------*/
 
@@ -195,6 +200,8 @@ const sprite = {
 document.addEventListener(`keydown`, handleKey);
 testButton.addEventListener(`click`, handleClick);
 startButton.addEventListener(`click`, startGame);
+playAgain.addEventListener(`click`, startMenu);
+
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -313,12 +320,14 @@ function calculateDeadline() {
 };
 
 function displayMessage() {
-  if (winner === false) {
-    message.innerHTML = `you missed the deadline.<br>try again next time.`
+  playAgain.classList.remove(`hidden`);
+  if (winner === false && gameOver === false) {
+    message.innerHTML = `you missed the deadline.`
   } else {
     debugAllTerminals();
     message.innerHTML = `looks like you are ready for your next project.`
   };
+  gameOver = true;
 };
 
 let terminalKeys = Object.keys(terminals);
@@ -346,10 +355,9 @@ function checkAvailableTerminals() {
 
 function debugTerminal() {
   bugsRemaining--;
-  console.log(bugsRemaining);
   terminals[`${sprite.posX}-${sprite.posY}`].bug = false;
   terminals[`${sprite.posX}-${sprite.posY}`].nodeSrc.src = `./assets/desk-1-false.gif`;
-  if (bugsRemaining === 0) {
+  if (bugsRemaining === 0 && gameOver === false) {
     winner = true;
     displayMessage();
   };
@@ -468,11 +476,28 @@ function createRandomByte() {
 };
 
 function startGame() {
+  playAgain.classList.add(`hidden`);
   daysRemaining = +deadlineRemainingBox.value;
   bugsRemaining = +bugsRemainingBox.value;
   winner = false;
+  gameOver = false;
+  sprite.posX = 2;
+  sprite.posY = 2;
+  programmerAura.style.left = `96px`;
+  programmerAura.style.top = `48px`;
+  programmer.src = `./assets/sprite_idle_down.gif`;
+  message.innerHTML = `looks like you got some bugs.<br>press arrow keys to move.<br>press spacebar to enter terminal.<br>press escape to escape terminal.`;
+  todayMonth = Date().split(` `)[1];
+  todayDate = +Date().split(` `)[2];
+  nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
+  if (nextMonthIndex === 12) {
+    nextMonth = monthTableKeys[0];
+  } else {
+    nextMonth = monthTableKeys[nextMonthIndex];
+  };
+  debugAllTerminals();
   const bugger = setInterval(() => {
-    if (winner === false) {
+    if (winner === false && gameOver === false) {
       bugRandomTerminal();
     } else {
       clearInterval(bugger);
@@ -481,7 +506,16 @@ function startGame() {
   deadlineTimer();
   calculateDeadline();
   startSettings.classList.toggle(`hidden`);
-  message.classList.toggle(`hidden`);
+  messageContainer.classList.toggle(`hidden`);
+  currentContainer.classList.toggle(`hidden`);
+  deadlineContainer.classList.toggle(`hidden`);
+  screen.classList.toggle(`hidden`);
+  computer.classList.toggle(`hidden`);
+};
+
+function startMenu() {
+  startSettings.classList.toggle(`hidden`);
+  messageContainer.classList.toggle(`hidden`);
   currentContainer.classList.toggle(`hidden`);
   deadlineContainer.classList.toggle(`hidden`);
   screen.classList.toggle(`hidden`);
