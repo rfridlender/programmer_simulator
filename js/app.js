@@ -2,15 +2,13 @@
 
 const mainContainer = document.querySelector(`.main-container`);
 
-// const month = document.querySelector(`.month`);
-// const dates = document.querySelectorAll(`.date`);
-
 const currentMonth = document.querySelector(`.current-month`);
 const currentDate = document.querySelector(`.current-date`);
 const deadlineMonth = document.querySelector(`.deadline-month`);
 const deadlineDate = document.querySelector(`.deadline-date`);
 
 const message = document.querySelector(`.message`);
+const startButton = document.querySelector(`.start-button`);
 
 const programmerAura = document.querySelector(`.sprite`);
 const programmer = document.querySelector(`.sprite-image`);
@@ -190,6 +188,7 @@ const sprite = {
 
 document.addEventListener(`keydown`, handleKey);
 testButton.addEventListener(`click`, handleClick);
+startButton.addEventListener(`click`, startGame);
 
 /*-------------------------------- Functions --------------------------------*/
 

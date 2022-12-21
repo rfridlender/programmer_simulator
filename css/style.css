@@ -29,9 +29,8 @@ body {
 .date-container {
   width: 1152px;
   height: 288px;
-  background: white;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -42,6 +41,7 @@ body {
   align-items: center;
   width: 25%;
   height: 100%;
+  background: white;
 }
 
 .current-month, .deadline-month {
@@ -84,6 +84,29 @@ body {
 .message {
   text-align: center;
   font-size: 2.5rem;
+}
+
+input {
+  color: greenyellow;
+  font-size: 3rem;
+  background: black;
+  border: 2px solid greenyellow;
+  border-radius: 8px;
+  outline: none;
+  width: 5rem;
+}
+
+.start-button {
+  border: 2px solid greenyellow;
+  border-radius: 8px;
+  padding: 0 1rem;
+}
+
+.start-button:hover {
+  border-radius: 8px;
+  color: black;
+  background: greenyellow;
+  cursor: pointer;
 }
 
 .deadline {
@@ -242,6 +265,10 @@ span {
   animation: blink 1s step-end infinite;
   background: greenyellow;
   color: #000;
+}
+
+.hidden {
+  display: none;
 }
 
 @keyframes blink {
