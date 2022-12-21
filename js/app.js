@@ -75,7 +75,7 @@ const keys = {
   37: `left`,
   40: `down`,
   38: `up`,
-  190: `period`,
+  32: `space`,
   27: `escape`,
 };
 
@@ -156,12 +156,10 @@ for (let x = 0; x < mapSize.x; x++) {
 };
 
 const sprite = {
-  // spriteDim: {x: programmer.clientWidth, y: programmer.clientHeight},
   spriteDim: {x: 48, y: 96},
   posX: 2,
   posY: 2,
   speedTilesPerPress: 1,
-  // runAnimationDuration: +getComputedStyle(programmerAura).transitionDuration.replace(`s`, ``) * 1000,
   runAnimationDuration: 200,
   step: 1,
   changeLayer() {
@@ -239,7 +237,7 @@ function handleKey(evt) {
     } else if (key === `up` && !tiles[`${sprite.posX}-${sprite.posY}`].top) {
       sprite.moveUp();
       sprite.changeLayer();
-    } else if (key === `period` && tiles[`${sprite.posX}-${sprite.posY}`].terminal && terminals[`${sprite.posX}-${sprite.posY}`].bug && programmer.src === `http://127.0.0.1:5500/assets/sprite_idle_up.gif`) {
+    } else if (key === `space` && tiles[`${sprite.posX}-${sprite.posY}`].terminal && terminals[`${sprite.posX}-${sprite.posY}`].bug && programmer.src === `http://127.0.0.1:5500/assets/sprite_idle_up.gif`) {
       renderTerminalScreen();
       computer.classList.remove(`computer-hidden`);
     };
@@ -504,7 +502,7 @@ function startGame() {
   programmerAura.style.left = `96px`;
   programmerAura.style.top = `48px`;
   programmer.src = `./assets/sprite_idle_down.gif`;
-  message.innerHTML = `looks like you got some bugs.<br>press arrow keys to move.<br>press . to enter terminal.<br>press escape to escape terminal.`;
+  message.innerHTML = `looks like you got some bugs.<br>press arrow keys to move.<br>press spacebar to enter terminal.<br>press escape to escape terminal.`;
   todayMonth = Date().split(` `)[1];
   todayDate = +Date().split(` `)[2];
   nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
@@ -528,7 +526,7 @@ function startGame() {
   currentContainer.classList.toggle(`hidden`);
   deadlineContainer.classList.toggle(`hidden`);
   screen.classList.toggle(`hidden`);
-  computer.classList.toggle(`hidden`);
+  computer.classList.remove(`hidden`);
 };
 
 function startMenu() {
