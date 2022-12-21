@@ -8,7 +8,14 @@ const deadlineMonth = document.querySelector(`.deadline-month`);
 const deadlineDate = document.querySelector(`.deadline-date`);
 
 const message = document.querySelector(`.message`);
+const startSettings = document.querySelector(`.start-settings`);
+
 const startButton = document.querySelector(`.start-button`);
+const deadlineRemainingBox = document.querySelector(`.deadline-remaining`);
+const bugsRemainingBox = document.querySelector(`.bugs-remaining`);
+
+const currentContainer = document.querySelector(`.current-container`);
+const deadlineContainer = document.querySelector(`.deadline-container`);
 
 const programmerAura = document.querySelector(`.sprite`);
 const programmer = document.querySelector(`.sprite-image`);
@@ -83,8 +90,7 @@ if (nextMonthIndex === 12) {
 
 /*---------------------------- Variables (state) ----------------------------*/  
 
-let bugsRemaining = 2;
-let daysRemaining = 90;
+let bugsRemaining, daysRemaining;
 let winner = false;
 
 /*---------------------------- Classses / Object ----------------------------*/
@@ -461,12 +467,23 @@ function createRandomByte() {
   return randomByte;
 };
 
-const bugger = setInterval(() => {
-  if (winner === false) {
-    bugRandomTerminal();
-  } else {
-    clearInterval(bugger);
-  }
-}, 30000);
-deadlineTimer();
-calculateDeadline();
+function startGame() {
+  daysRemaining = +deadlineRemainingBox.value;
+  bugsRemaining = +bugsRemainingBox.value;
+  winner = false;
+  const bugger = setInterval(() => {
+    if (winner === false) {
+      bugRandomTerminal();
+    } else {
+      clearInterval(bugger);
+    }
+  }, 30000);
+  deadlineTimer();
+  calculateDeadline();
+  startSettings.classList.toggle(`hidden`);
+  message.classList.toggle(`hidden`);
+  currentContainer.classList.toggle(`hidden`);
+  deadlineContainer.classList.toggle(`hidden`);
+  screen.classList.toggle(`hidden`);
+  computer.classList.toggle(`hidden`);
+};

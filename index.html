@@ -21,15 +21,17 @@
         <div class="title-container">
           <div class="title">programmer_simulator<span>&nbsp;</span></div>
           <div class="message hidden">looks like you got some bugs.<br>press arrow keys to move.<br>press spacebar to enter terminal.<br>press escape to escape terminal.</div>
-          <div class="deadline-option">
-            <lable for="deadline">days until deadline:</lable>
-            <input type="number" name="deadline" value="225" min="30" max="999" step="15">
+          <div class="start-settings">
+            <div class="deadline-option">
+              <lable for="deadline">days until deadline:</lable>
+              <input class="deadline-remaining" type="number" name="deadline" value="225" min="30" max="999" step="15">
+            </div>
+            <div class="bugs-option">
+              <lable for="bugs">bugs to fix:</lable>
+              <input class="bugs-remaining" type="number" name="bugs" value="5" min="1" max="33">
+            </div>
+            <div class="start-button">start</div>
           </div>
-          <div class="bugs-option">
-            <lable for="bugs">bugs to fix:</lable>
-            <input type="number" name="bugs" value="5" min="1" max="33">
-          </div>
-          <div class="start-button">start</div>
         </div>
         <div class="deadline-container hidden">
           <div class="deadline">Deadline!!</div>
