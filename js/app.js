@@ -264,6 +264,9 @@ function deadlineTimer() {
   };
   const dayByDay = setInterval(() => {
     if (`${todayMonth} ${todayDate}` !== calculateDeadline() && winner === false) {
+      if (checkAvailableTerminals().length === 8) {
+        bugRandomTerminal();
+      };
       if (todayDate < monthTable[todayMonth][1]) {
         todayDate++;
         currentDate.innerHTML = todayDate;
@@ -325,7 +328,14 @@ function bugRandomTerminal() {
     terminals[availableTerminalKeys[randomIdx]].nodeSrc.src = `./assets/desk-1-true.gif`;
     terminals[availableTerminalKeys[randomIdx]].bug = true;
   };
-  return availableTerminalKeys.length;
+};
+
+function checkAvailableTerminals() {
+  return terminalKeys.filter(terminalKey => {
+    if (terminals[terminalKey].bug === false) {
+      return terminalKey;
+    };
+  });
 };
 
 function debugTerminal() {
@@ -443,7 +453,6 @@ function createRandomByte() {
   return randomByte;
 };
 
-bugRandomTerminal();
 const bugger = setInterval(() => {
   if (winner === false) {
     bugRandomTerminal();
