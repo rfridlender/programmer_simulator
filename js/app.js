@@ -2,8 +2,15 @@
 
 const mainContainer = document.querySelector(`.main-container`);
 
-const month = document.querySelector(`.month`);
-const dates = document.querySelectorAll(`.date`);
+// const month = document.querySelector(`.month`);
+// const dates = document.querySelectorAll(`.date`);
+
+const currentMonth = document.querySelector(`.current-month`);
+const currentDate = document.querySelector(`.current-date`);
+const deadlineMonth = document.querySelector(`.deadline-month`);
+const deadlineDate = document.querySelector(`.deadline-date`);
+
+const message = document.querySelector(`.message`);
 
 const programmerAura = document.querySelector(`.sprite`);
 const programmer = document.querySelector(`.sprite-image`);
@@ -66,11 +73,7 @@ monthTable = {
   Nov: [`November`, 30],
   Dec: [`December`, 31],
 };
-let daysInFirstWeekRemaining;
-let dateSelector;
 let todayMonth = Date().split(` `)[1];
-  month.innerHTML = monthTable[`${todayMonth}`][0];
-let todayDay = Date().split(` `)[0];
 let todayDate = +Date().split(` `)[2];
 let monthTableKeys = Object.keys(monthTable);
 let nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
@@ -79,90 +82,12 @@ if (nextMonthIndex === 12) {
 } else {
   nextMonth = monthTableKeys[nextMonthIndex];
 };
-dates.forEach(date => {
-  if (todayDay === `Sun` && date === dates[0]) {
-    dates[0].innerHTML = todayDate;
-    dates[1].innerHTML = todayDate + 1;
-    dates[2].innerHTML = todayDate + 2;
-    dates[3].innerHTML = todayDate + 3;
-    dates[4].innerHTML = todayDate + 4;
-    dates[5].innerHTML = todayDate + 5;
-    dates[6].innerHTML = todayDate + 6;
-    todayDate += 6;
-    daysInFirstWeekRemaining = 7;
-    dateSelector = 0;
-  } else if (todayDay === `Mon` && date === dates[1]) {
-    dates[0].innerHTML = todayDate - 1;
-    dates[1].innerHTML = todayDate;
-    dates[2].innerHTML = todayDate + 1;
-    dates[3].innerHTML = todayDate + 2;
-    dates[4].innerHTML = todayDate + 3;
-    dates[5].innerHTML = todayDate + 4;
-    dates[6].innerHTML = todayDate + 5;
-    todayDate += 5;
-    daysInFirstWeekRemaining = 6;
-    dateSelector = 1;
-  } else if (todayDay === `Tue` && date === dates[2]) {
-    dates[0].innerHTML = todayDate - 2;
-    dates[1].innerHTML = todayDate - 1;
-    dates[2].innerHTML = todayDate;
-    dates[3].innerHTML = todayDate + 1;
-    dates[4].innerHTML = todayDate + 2;
-    dates[5].innerHTML = todayDate + 3;
-    dates[6].innerHTML = todayDate + 4;
-    todayDate += 4;
-    daysInFirstWeekRemaining = 5;
-    dateSelector = 2;
-  } else if (todayDay === `Wed` && date === dates[3]) {
-    dates[0].innerHTML = todayDate - 3;
-    dates[1].innerHTML = todayDate - 2;
-    dates[2].innerHTML = todayDate - 1;
-    dates[3].innerHTML = todayDate;
-    dates[4].innerHTML = todayDate + 1;
-    dates[5].innerHTML = todayDate + 2;
-    dates[6].innerHTML = todayDate + 3;
-    todayDate += 3;
-    daysInFirstWeekRemaining = 4;
-    dateSelector = 3;
-  } else if (todayDay === `Thu` && date === dates[4]) {
-    dates[0].innerHTML = todayDate - 4;
-    dates[1].innerHTML = todayDate - 3;
-    dates[2].innerHTML = todayDate - 2;
-    dates[3].innerHTML = todayDate - 1;
-    dates[4].innerHTML = todayDate;
-    dates[5].innerHTML = todayDate + 1;
-    dates[6].innerHTML = todayDate + 2;
-    todayDate += 2;
-    daysInFirstWeekRemaining = 3;
-    dateSelector = 4;
-  } else if (todayDay === `Fri` && date === dates[5]) {
-    dates[0].innerHTML = todayDate - 5;
-    dates[1].innerHTML = todayDate - 4;
-    dates[2].innerHTML = todayDate - 3;
-    dates[3].innerHTML = todayDate - 2;
-    dates[4].innerHTML = todayDate - 1;
-    dates[5].innerHTML = todayDate;
-    dates[6].innerHTML = todayDate + 1;
-    todayDate += 1;
-    daysInFirstWeekRemaining = 2;
-    dateSelector = 5;
-  } else if (todayDay === `Sat` && date === dates[6]) {
-    dates[0].innerHTML = todayDate - 6;
-    dates[1].innerHTML = todayDate - 5;
-    dates[2].innerHTML = todayDate - 4;
-    dates[3].innerHTML = todayDate - 3;
-    dates[4].innerHTML = todayDate - 2;
-    dates[5].innerHTML = todayDate - 1;
-    dates[6].innerHTML = todayDate;
-    daysInFirstWeekRemaining = 1;
-    dateSelector = 6;
-  };
-});
 
 /*---------------------------- Variables (state) ----------------------------*/  
 
-let bugsRemaining = 20;
-let daysRemaining = 30;
+let bugsRemaining = 2;
+let daysRemaining = 90;
+let winner = false;
 
 /*---------------------------- Classses / Object ----------------------------*/
 
@@ -328,63 +253,31 @@ function assignDeskBoundaries(desk) {
 };
 
 function deadlineTimer() {
-  setTimeout(() => {
-    dates.forEach(date => {
-      if (todayDate < monthTable[`${todayMonth}`][1]) {
-        date.innerHTML = `${todayDate += 1}`;
-      } else {
-        month.innerHTML = monthTable[`${nextMonth}`][0];
-        todayMonth = nextMonth;
-        nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
-        if (nextMonthIndex === 12) {
-          nextMonth = monthTableKeys[0];
-        } else {
-          nextMonth = monthTableKeys[nextMonthIndex];
-        };
-        todayDate = 0;
-        date.innerHTML = `${todayDate += 1}`;
-      };
-    });
-    const weekByWeek = setInterval(() => {
-      if (daysRemaining > 0) {
-        dates.forEach(date => {
-          if (todayDate < monthTable[`${todayMonth}`][1]) {
-            date.innerHTML = `${todayDate += 1}`;
-          } else {
-            month.innerHTML = monthTable[`${nextMonth}`][0];
-            todayMonth = nextMonth;
-            nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
-            if (nextMonthIndex === 12) {
-              nextMonth = monthTableKeys[0];
-            } else {
-              nextMonth = monthTableKeys[nextMonthIndex];
-            };
-            todayDate = 0;
-            date.innerHTML = `${todayDate += 1}`;
-          };
-        });
-      } else {
-        clearInterval(weekByWeek);
-      };
-    }, 7000);
-  }, daysInFirstWeekRemaining * 1000);
-  dates[dateSelector].classList.add(`highlight-date`);
-  dateSelector++;
+  currentMonth.innerHTML = monthTable[todayMonth][0];
+  currentDate.innerHTML = todayDate;
+  let nextSimMonth;
+  let nextSimMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
+  if (nextSimMonthIndex === 12) {
+    nextSimMonth = monthTableKeys[0];
+  } else {
+    nextSimMonth = monthTableKeys[nextMonthIndex];
+  };
   const dayByDay = setInterval(() => {
-    if (daysRemaining > 0) {
-      daysRemaining--;
-      if (dateSelector < 7 && dateSelector > 0) {
-        dates[dateSelector].classList.add(`highlight-date`);
-        dates[dateSelector - 1].classList.remove(`highlight-date`);
-        dateSelector++;
+    if (`${todayMonth} ${todayDate}` !== calculateDeadline() && winner === false) {
+      if (todayDate < monthTable[todayMonth][1]) {
+        todayDate++;
+        currentDate.innerHTML = todayDate;
       } else {
-        dateSelector = 0;
-        dates[dateSelector].classList.add(`highlight-date`);
-        dates[6].classList.remove(`highlight-date`);
-        dateSelector++;
+        todayDate = 1;
+        currentDate.innerHTML = todayDate;
+        currentMonth.innerHTML = monthTable[nextSimMonth][0];
+        todayMonth = nextSimMonth;
+        nextSimMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
+        nextSimMonth = monthTableKeys[nextSimMonthIndex];
       };
     } else {
       clearInterval(dayByDay);
+      displayMessage();
     };
   }, 1000);
 };
@@ -406,7 +299,17 @@ function calculateDeadline() {
       startingDate = 1;
     };
   };
-  return [startingMonth, startingDate];
+  deadlineMonth.innerHTML = monthTable[startingMonth][0];
+  deadlineDate.innerHTML = startingDate;
+  return `${startingMonth} ${startingDate}`;
+};
+
+function displayMessage() {
+  if (winner === false) {
+    message.innerHTML = `you missed the deadline.<br>try again next time.`
+  } else {
+    message.innerHTML = `looks like you are ready for your next project.`
+  };
 };
 
 let terminalKeys = Object.keys(terminals);
@@ -422,13 +325,7 @@ function bugRandomTerminal() {
     terminals[availableTerminalKeys[randomIdx]].nodeSrc.src = `./assets/desk-1-true.gif`;
     terminals[availableTerminalKeys[randomIdx]].bug = true;
   };
-};
-
-function renderTerminalScreen() {
-  testButton.innerHTML = `TEST`;
-  testStatus.classList.remove(`passed`);
-  testStatus.classList.remove(`failed`);
-  terminalScreen.value = terminals[`${sprite.posX}-${sprite.posY}`].problem;
+  return availableTerminalKeys.length;
 };
 
 function debugTerminal() {
@@ -436,6 +333,17 @@ function debugTerminal() {
   console.log(bugsRemaining);
   terminals[`${sprite.posX}-${sprite.posY}`].bug = false;
   terminals[`${sprite.posX}-${sprite.posY}`].nodeSrc.src = `./assets/desk-1-false.gif`;
+  if (bugsRemaining === 0) {
+    winner = true;
+    displayMessage();
+  };
+};
+
+function renderTerminalScreen() {
+  testButton.innerHTML = `TEST`;
+  testStatus.classList.remove(`passed`);
+  testStatus.classList.remove(`failed`);
+  terminalScreen.value = terminals[`${sprite.posX}-${sprite.posY}`].problem;
 };
 
 terminalImages.forEach((terminalImg, idx) => {
@@ -536,7 +444,12 @@ function createRandomByte() {
 };
 
 bugRandomTerminal();
-setInterval(() => {
-  bugRandomTerminal();
+const bugger = setInterval(() => {
+  if (winner === false) {
+    bugRandomTerminal();
+  } else {
+    clearInterval(bugger);
+  }
 }, 30000);
 deadlineTimer();
+calculateDeadline();

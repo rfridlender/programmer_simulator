@@ -81,6 +81,10 @@ body {
   color: greenyellow;
 }
 
+.message {
+  text-align: center;
+}
+
 .deadline {
   font-family: 'Cedarville Cursive', cursive;
   position: absolute;
