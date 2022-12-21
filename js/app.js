@@ -311,6 +311,7 @@ function displayMessage() {
   if (winner === false) {
     message.innerHTML = `you missed the deadline.<br>try again next time.`
   } else {
+    debugAllTerminals();
     message.innerHTML = `looks like you are ready for your next project.`
   };
 };
@@ -347,6 +348,14 @@ function debugTerminal() {
     winner = true;
     displayMessage();
   };
+};
+
+function debugAllTerminals() {
+  let terminalKeys = Object.keys(terminals);
+  terminalKeys.forEach(terminalKey => {
+    terminals[terminalKey].bug = false;
+    terminals[terminalKey].nodeSrc.src = `./assets/desk-1-false.gif`;
+  });
 };
 
 function renderTerminalScreen() {
