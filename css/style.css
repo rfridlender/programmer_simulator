@@ -81,6 +81,14 @@ body {
   color: greenyellow;
 }
 
+.message-container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .message {
   text-align: center;
   font-size: 2.5rem;
@@ -91,6 +99,7 @@ body {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
 }
 
 input {
@@ -108,9 +117,10 @@ input {
   border-radius: 8px;
   padding: 0 1rem;
   text-align: center;
+  width: 50%;
 }
 
-.start-button:hover, .play-again:hover {
+.start-button:hover, .play-again:hover, .test-button:hover {
   border-radius: 8px;
   color: black;
   background: greenyellow;
