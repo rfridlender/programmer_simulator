@@ -34,21 +34,6 @@ const terminalImages = document.querySelectorAll(`.terminal`);
 const testButton = document.querySelector(`.test-button`);
 const testStatus = document.querySelector(`.test-status`);
 
-let problem = 
-`let sandwich = document.querySelector('.sandwich');
-
-if (sandwich.id = 'tuna') {
-  // Do something...
-}`;
-let solution = 
-`let sandwich = document.querySelector('.sandwich');
-
-if (sandwich.id === 'tuna') {
-  // Do something...
-}`;
-
-console.log(assignRandomBug());
-
 /*-------------------------------- Constants --------------------------------*/
 
 const keys = {
@@ -436,6 +421,8 @@ function runTests() {
 };
 
 function displayResults() {
+  let filteredValue = terminalScreen.value.replaceAll(' ','').replaceAll('\n', '');
+  console.log(filteredValue);
   if (terminalScreen.value === terminals[`${sprite.posX}-${sprite.posY}`].solution) {
     testStatus.innerHTML = `TEST PASSED`;
     testButton.innerHTML = `MERGE`;
