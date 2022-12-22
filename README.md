@@ -39,6 +39,7 @@ Settings for the amount of bugs to fix and the days (seconds) until the deadline
 
 - [ ] Organize JavaScript through modules
 - [ ] Refactor/Simplify JavaScript
+- [ ] Allow the user to format each solution as they desire
 - [ ] Add more bugs to fix within the terminal
 - [ ] Create a more immersive/realistic terminal experience
 - [ ] Provide more user feedback through styling
