@@ -24,7 +24,7 @@ Settings for the amount of bugs to fix and the days (seconds) until the deadline
 - HTML
 - CSS
 - JavaScript
-- git
+- Git
 
 ## Applications used for asset creation:
 
