@@ -1,3 +1,5 @@
+import { assignRandomBug } from "./bugs.js";
+
 /*------------------------ Cached Element References ------------------------*/
 
 const mainContainer = document.querySelector(`.main-container`);
@@ -45,28 +47,7 @@ if (sandwich.id === 'tuna') {
   // Do something...
 }`;
 
-let bugs = [
-  [`let sandwich = document.querySelector('.sandwich');
-
-  if (sandwich.id = 'tuna') {
-    console.log('gross')
-  }`,
-  `let sandwich = document.querySelector('.sandwich');
-
-  if (sandwich.id === 'tuna') {
-    console.log('gross')
-  }`],
-  [`if (sandwich === 'tuna') {
-    if (bread === 'wheat') {
-      alert('What a yummy sandwich!');
-  
-  }`, `if (sandwich === 'tuna') {
-    if (bread === 'wheat') {
-      alert('What a yummy sandwich!');
-    }
-  }
-  `]
-]
+console.log(assignRandomBug());
 
 /*-------------------------------- Constants --------------------------------*/
 
@@ -86,7 +67,7 @@ const mapSize = {
   y: 13,
 };
 
-monthTable = {
+const monthTable = {
   Jan: [`January`, 31],
   Feb: [`February`, 28],
   Mar: [`March`, 31],
@@ -105,7 +86,7 @@ let todayDate = +Date().split(` `)[2];
 let monthTableKeys = Object.keys(monthTable);
 let nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
 if (nextMonthIndex === 12) {
-  nextMonth = monthTableKeys[0];
+  let nextMonth = monthTableKeys[0];
 } else {
   nextMonth = monthTableKeys[nextMonthIndex];
 };
@@ -254,6 +235,8 @@ function handleClick() {
     runTests();
   } else if (testButton.innerHTML === `MERGE`) {
     runMerge();
+  } else if (testButton.innerHTML === `MERGE COMPLETE`) {
+    computer.classList.add(`computer-hidden`);
   };
 };
 
@@ -266,7 +249,7 @@ function assignDeskBoundaries(desk) {
     for (let y = desk[1]; y <= desk[3]; y++) {
       if (x === desk[0] + desk[4] && y === desk[3] || x === desk[0] + desk[5] && y === desk[3]) {
         tiles[`${x}-${y}`] = {right: false, left: false, bottom: false, top: true, terminal: true};
-        terminals[`${x}-${y}`] = {bug: false, problem: `value at terminal ${x}-${y}`, solution: `solution at terminal ${x}-${y}`};
+        terminals[`${x}-${y}`] = {bug: false, problem: assignRandomBug()[0], solution: assignRandomBug()[1]};
       } else if (x === desk[0] && y !== desk[1] && y !== desk[3]) {
         tiles[`${x}-${y}`] = {right: true, left: false, bottom: false, top: false, terminal: false};
       } else if (x === desk[2] && y !== desk[1] && y !== desk[3]) {
@@ -358,8 +341,11 @@ function bugRandomTerminal() {
   });
   if (availableTerminalKeys.length) {
     let randomIdx = Math.floor(Math.random() * availableTerminalKeys.length);
+    let buggyCode = assignRandomBug()
     terminals[availableTerminalKeys[randomIdx]].nodeSrc.src = `./assets/desk-1-true.gif`;
     terminals[availableTerminalKeys[randomIdx]].bug = true;
+    terminals[availableTerminalKeys[randomIdx]].problem = buggyCode[0];
+    terminals[availableTerminalKeys[randomIdx]].solution = buggyCode[1];
   };
 };
 
@@ -509,7 +495,7 @@ function startGame() {
   todayDate = +Date().split(` `)[2];
   nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
   if (nextMonthIndex === 12) {
-    nextMonth = monthTableKeys[0];
+    let nextMonth = monthTableKeys[0];
   } else {
     nextMonth = monthTableKeys[nextMonthIndex];
   };
