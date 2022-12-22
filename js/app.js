@@ -2,8 +2,6 @@ import { assignRandomBug } from "./bugs.js";
 
 /*------------------------ Cached Element References ------------------------*/
 
-const mainContainer = document.querySelector(`.main-container`);
-
 const currentMonth = document.querySelector(`.current-month`);
 const currentDate = document.querySelector(`.current-date`);
 const deadlineMonth = document.querySelector(`.deadline-month`);
@@ -26,7 +24,6 @@ const deadlineContainer = document.querySelector(`.deadline-container`);
 const programmerAura = document.querySelector(`.sprite`);
 const programmer = document.querySelector(`.sprite-image`);
 const screen = document.querySelector(`.screen`);
-const deskImages = document.querySelectorAll(`.desk`); 
 
 const computer = document.querySelector(`.computer`);
 const terminalScreen = document.querySelector(`.code`);
@@ -70,8 +67,9 @@ let todayMonth = Date().split(` `)[1];
 let todayDate = +Date().split(` `)[2];
 let monthTableKeys = Object.keys(monthTable);
 let nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
+let nextMonth;
 if (nextMonthIndex === 12) {
-  let nextMonth = monthTableKeys[0];
+  nextMonth = monthTableKeys[0];
 } else {
   nextMonth = monthTableKeys[nextMonthIndex];
 };
@@ -234,7 +232,7 @@ function assignDeskBoundaries(desk) {
     for (let y = desk[1]; y <= desk[3]; y++) {
       if (x === desk[0] + desk[4] && y === desk[3] || x === desk[0] + desk[5] && y === desk[3]) {
         tiles[`${x}-${y}`] = {right: false, left: false, bottom: false, top: true, terminal: true};
-        terminals[`${x}-${y}`] = {bug: false, problem: assignRandomBug()[0], solution: assignRandomBug()[1]};
+        terminals[`${x}-${y}`] = {bug: false, problem: ``, solution: ``}
       } else if (x === desk[0] && y !== desk[1] && y !== desk[3]) {
         tiles[`${x}-${y}`] = {right: true, left: false, bottom: false, top: false, terminal: false};
       } else if (x === desk[2] && y !== desk[1] && y !== desk[3]) {
@@ -421,8 +419,6 @@ function runTests() {
 };
 
 function displayResults() {
-  let filteredValue = terminalScreen.value.replaceAll(' ','').replaceAll('\n', '');
-  console.log(filteredValue);
   if (terminalScreen.value === terminals[`${sprite.posX}-${sprite.posY}`].solution) {
     testStatus.innerHTML = `TEST PASSED`;
     testButton.innerHTML = `MERGE`;
@@ -477,7 +473,7 @@ function startGame() {
   programmerAura.style.left = `96px`;
   programmerAura.style.top = `48px`;
   programmer.src = `./assets/sprite_idle_down.gif`;
-  message.innerHTML = `looks like you got some bugs.<br>press arrow keys to move.<br>press spacebar to enter terminal.<br>press escape to escape terminal.`;
+  message.innerHTML = `looks like you got some bugs.<br>press the arrow keys to move.<br>press spacebar to enter terminal.<br>press escape to escape terminal.`;
   todayMonth = Date().split(` `)[1];
   todayDate = +Date().split(` `)[2];
   nextMonthIndex = monthTableKeys.indexOf(todayMonth) + 1;
