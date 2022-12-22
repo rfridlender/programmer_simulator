@@ -162,6 +162,7 @@ const sprite = {
   speedTilesPerPress: 1,
   runAnimationDuration: 200,
   step: 1,
+  facing: `down`,
   changeLayer() {
     if (tiles[`${this.posX}-${this.posY}`].top) {
       programmerAura.style.zIndex = `1`;
@@ -170,8 +171,10 @@ const sprite = {
     };
   },
   turn(key) {
-    if (key === `right` || key === `left` || key === `down` || key === `up`)
+    if (key === `right` || key === `left` || key === `down` || key === `up`) {
       programmer.src = `./assets/sprite_idle_${key}.gif`;
+      this.facing = key;
+    };
   },
   moveRight() {
     programmerAura.style.left = `${pixelTranslator(this.posX) + (this.spriteDim.x * this.speedTilesPerPress)}px`;
@@ -221,7 +224,6 @@ playAgain.addEventListener(`click`, startMenu);
 /*-------------------------------- Functions --------------------------------*/
 
 function handleKey(evt) {
-  console.log(evt.keyCode);
   const key = keys[`${evt.keyCode}`];
   if (computer.classList[1] === `computer-hidden`) {
     sprite.turn(key);
@@ -237,7 +239,7 @@ function handleKey(evt) {
     } else if (key === `up` && !tiles[`${sprite.posX}-${sprite.posY}`].top) {
       sprite.moveUp();
       sprite.changeLayer();
-    } else if (key === `space` && tiles[`${sprite.posX}-${sprite.posY}`].terminal && terminals[`${sprite.posX}-${sprite.posY}`].bug && programmer.src === `http://127.0.0.1:5500/assets/sprite_idle_up.gif`) {
+    } else if (key === `space` && tiles[`${sprite.posX}-${sprite.posY}`].terminal && terminals[`${sprite.posX}-${sprite.posY}`].bug && sprite.facing === `up`) {
       renderTerminalScreen();
       computer.classList.remove(`computer-hidden`);
     };
