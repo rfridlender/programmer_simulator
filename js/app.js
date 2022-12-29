@@ -418,8 +418,21 @@ function runTests() {
   }, 300);
 };
 
+// function displayResults() {
+//   if (terminalScreen.value === terminals[`${sprite.posX}-${sprite.posY}`].solution) {
+//     testStatus.innerHTML = `TEST PASSED`;
+//     testButton.innerHTML = `MERGE`;
+//     testStatus.classList.add(`passed`);
+//   } else {
+//     testStatus.innerHTML = `TEST FAILED`;
+//     testButton.innerHTML = `TEST`;
+//     testStatus.classList.add(`failed`);
+//   };
+// };
+
 function displayResults() {
-  if (terminalScreen.value === terminals[`${sprite.posX}-${sprite.posY}`].solution) {
+  let filteredValue = terminalScreen.value.replaceAll(' ','').replaceAll('\n', '');
+  if (filteredValue === terminals[`${sprite.posX}-${sprite.posY}`].solution) {
     testStatus.innerHTML = `TEST PASSED`;
     testButton.innerHTML = `MERGE`;
     testStatus.classList.add(`passed`);
