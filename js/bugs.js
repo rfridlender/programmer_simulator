@@ -85,7 +85,7 @@ const bugs = [
       console.log('hello world')
     }
     `,
-    `functionhelloWorld(){console.log('hello world')}`
+    `functionhelloWorld(){console.log('helloworld')}`
   ]
 ]
 
