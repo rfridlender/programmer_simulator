@@ -1,4 +1,3 @@
-
 ![The office space within the middle of a game](./screenshots/office-space.png)
 ![A failed solution to a bug within the terminal](./screenshots/failed-solution.png)
 
