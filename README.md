@@ -2,7 +2,7 @@
 ![The office space within the middle of a game](./screenshots/office-space.png)
 ![A failed solution to a bug within the terminal](./screenshots/failed-solution.png)
 
-# programmer_simulator
+## [programmer_simulator](https://programmer-simulator.netlify.app/)
 
 A nerve-racking simulation game, *programmer_simulator* brings you into the life of a full-time programmer. As the player, experience what it is like to frantically debug your code before reaching the dreaded project deadline. Styled as a 2D RPG, this simulation game demands you access various terminals scattered throughout an office space, fixing the bugs within them. If a bug has been fixed, the player must merge the code into the company's main branch and move onto the next bug. If the player is able to fix all the bugs before the deadline, they are a worthy employee. If not, (maybe) they can try again next time.
 
@@ -21,10 +21,10 @@ Settings for the amount of bugs to fix and the days (seconds) until the deadline
 
 ## Technologies used:
 
-- HTML
-- CSS
-- JavaScript
-- Git
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
 ## Applications used for asset creation:
 
